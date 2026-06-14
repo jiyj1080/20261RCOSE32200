@@ -47,6 +47,21 @@ The project demonstrates a multi-layered architecture where WrapFS transparently
 
 ```
 
+## 🧠 Technical Highlights & Troubleshooting
+
+* **Directory Context Wrapping & Callbacks:** Intercepting directory listings to hide specific files required modifying the kernel's `iterate_dir` behavior without breaking its internal state tracking or pointer arithmetic.
+
+
+* **Solution:** Engineered a custom `wrapfs_dir_context` wrapper containing a `fake_ctx` mapped to a custom `wrapfs_filldir` actor function. By passing this spoofed context to the lower file system, the custom function intercepts every directory entry. The kernel's `container_of` macro was utilized to safely extract the actual context from the `fake_ctx` pointer, allowing normal entries to pass through while silently returning `0` to drop entries ending with `.sslabsecret`.
+
+
+
+
+* **Dynamic Metadata Spoofing via VFS Interception:** The system needed to dynamically alter file attributes (UID/GID) for specific target files without permanently modifying the actual metadata written to the underlying Ext4 file system.
+
+
+* **Solution:** Hooked the `getattr` inode operation by implementing `wrapfs_getattr`. The function fetches the true `lower_stat` from the Ext4 layer and inspects the values. If the target conditions are met (UID/GID `77777`), it dynamically overrides the `stat` structure in memory using `current_uid()` and `current_gid()` before returning to user-space, achieving transparent on-the-fly attribute translation.
+
 # Project 2: In-Kernel Virtual-IP Load Balancer via eBPF & TC
 
 A high-performance, in-kernel load balancer implemented using extended Berkeley Packet Filter (eBPF). This project operates entirely within the Linux kernel's Traffic Control (TC) subsystem, performing Network Address Port Translation (NAPT) and session-aware traffic distribution without the overhead of context switching to user-space.
