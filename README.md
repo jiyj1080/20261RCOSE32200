@@ -1,4 +1,51 @@
-# 20261RCOSE32200
+# Project 1: WrapFS - A Stackable Wrapper File System
+
+A system programming project implementing a custom stackable wrapper file system (WrapFS) within the Linux kernel. This project operates as an intermediate layer between the Virtual File System (VFS) and the lower-level file system (Ext4), intercepting and modifying system calls and file operations to alter file attributes and directory visibility dynamically.
+
+## 🚀 Key Features
+
+* **Dynamic Ownership Translation (Goal 1):** Modifies the `wrapfs_getattr` function in `inode.c` to intercept file attribute retrievals. If a file's UID and GID are detected as `77777`, the system dynamically alters the metadata to reflect the current process's UID and GID (`current_uid()`, `current_gid()`).
+
+
+* **Directory Entry Hiding (Goal 2):** Implements custom `wrapfs_readdir` and `wrapfs_filldir` functions in `file.c` to intercept directory iteration. It actively filters directory contents, silently hiding any files ending with the `.sslabsecret` suffix from tools like `ls`.
+
+
+* **VFS Call Chain Interception:** Successfully maps VFS operations to WrapFS handlers, redirecting calls like `f_op->open` to `wrapfs_open`, `f_op->iterate` to `wrapfs_readdir`, and `i_op->getattr` to `wrapfs_getattr` before passing them down to the Ext4 lower file system.
+
+
+
+## 🛠️ Technology Stack
+
+* **Environment:** Linux Kernel v5.15, Ubuntu 22.04.5, Oracle Virtual Box, Windows 11 Host.
+
+
+* **Languages:** C (Linux Kernel Module).
+
+
+* **Tools:** `dmesg`, `strace`, Bash (Test scripts), Make.
+
+
+* **Core Concepts:** Virtual File System (VFS), Inode Operations, File Operations, Context Management (`container_of`).
+
+
+
+## 🏗️ System Architecture
+
+The project demonstrates a multi-layered architecture where WrapFS transparently intercepts user-space requests passing through the VFS before they reach the actual lower file system.
+
+```text
+[ User Space ] `ls -l` command
+      |
+[ System Calls ] openat(), getdents64(), statx()
+      |
+[ Virtual File System (VFS) ] path_openat(), iterate_dir(), vfs_getattr_nosec()
+      |
+[ WrapFS (This Project) ] wrapfs_open(), wrapfs_readdir(), wrapfs_getattr()
+      |   <--- (Attribute spoofing & Directory filtering logic applied here)
+      |
+[ Lower File System (Ext4) ] ext4_file_open(), ext4_readdir(), ext4_file_getattr()
+
+```
 
 # Project 2: In-Kernel Virtual-IP Load Balancer via eBPF & TC
 
