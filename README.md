@@ -1,3 +1,7 @@
+![Linux Kernel](https://img.shields.io/badge/Linux_Kernel-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![C Programming](https://img.shields.io/badge/C_Language-00599C?style=for-the-badge&logo=c&logoColor=white)
+![eBPF](https://img.shields.io/badge/eBPF-e84b33?style=for-the-badge)
+
 ## 📑 Table of Contents
 - [Project 1: WrapFS](#project-1-wrapfs---a-stackable-wrapper-file-system-via-lkm)
 - [Project 2: In-Kernel VIP Load Balancer](#project-2-in-kernel-virtual-ip-load-balancer-via-ebpf--tc)
