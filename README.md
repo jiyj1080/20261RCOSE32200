@@ -80,3 +80,11 @@ The project simulates a hyper-scale infrastructure using isolated Linux Network 
       |
       +---> [ ns_db_main ]   (192.168.1.100:18080)
       +---> [ ns_db_backup ] (192.168.1.101:28080)
+
+```
+
+## 🧠 Technical Highlights & Troubleshooting
+
+* **BPF ISA Compiler Optimization:** During the implementation of the atomic global flow counter, the LLVM 14 compiler emitted an `Invalid usage of the XADD return value` error. This was traced to the limitations of the older BPF Instruction Set Architecture (ISA), which supports atomic addition but does not support fetching the previous value into a register simultaneously in a single instruction context.
+**Solution:** Refactored the C code to separate the atomic increment (`__sync_fetch_and_add`) from the value retrieval, successfully generating valid BPF bytecode utilizing pure `BPF_STX | BPF_XADD` instructions.
+* **Zero-Padding in eBPF Maps:** Ensured strict memory initialization for the `flow_key` structure (`struct flow_key flow = {};`). This prevented garbage data from leaking into the compiler-generated struct padding bytes, guaranteeing deterministic key matching in the BPF Hash Map for session tracking.
