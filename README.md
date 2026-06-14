@@ -1,4 +1,4 @@
-# Project 1: WrapFS - A Stackable Wrapper File System
+# Project 1: WrapFS - A Stackable Wrapper File System via LKM
 
 A system programming project implementing a custom stackable wrapper file system (WrapFS) within the Linux kernel. This project operates as an intermediate layer between the Virtual File System (VFS) and the lower-level file system (Ext4), intercepting and modifying system calls and file operations to alter file attributes and directory visibility dynamically.
 
