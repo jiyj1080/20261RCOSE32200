@@ -1,8 +1,8 @@
 ## 📑 Table of Contents
 - [Project 1: WrapFS](#project-1-wrapfs---a-stackable-wrapper-file-system-via-lkm)
 - [Project 2: In-Kernel VIP Load Balancer](#project-2-in-kernel-virtual-ip-load-balancer-via-ebpf--tc)
-- [Technical Highlights & Troubleshooting](#-technical-highlights--troubleshooting)
-- 
+
+
 # Project 1: WrapFS - A Stackable Wrapper File System via LKM
 
 A system programming project implementing a custom stackable wrapper file system (WrapFS) within the Linux kernel. This project operates as an intermediate layer between the Virtual File System (VFS) and the lower-level file system (Ext4), intercepting and modifying system calls and file operations to alter file attributes and directory visibility dynamically.
