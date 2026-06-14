@@ -1,0 +1,45 @@
+# ==========================================
+# C/C++ & Build Artifacts
+# ==========================================
+*.o
+*.a
+*.so
+*.out
+*.exe
+
+# ==========================================
+# Linux Kernel Module (LKM) / WrapFS
+# ==========================================
+*.ko
+*.mod
+*.mod.c
+*.mod.o
+modules.order
+Module.symvers
+.tmp_versions/
+.*.cmd
+.*.flags
+*.o.ur-safe
+
+# ==========================================
+# eBPF / Project 2 Artifacts
+# ==========================================
+*.bpf.o
+*.skel.h
+
+# ==========================================
+# OS & Editor Temporary Files
+# ==========================================
+# Vim / Emacs
+*.swp
+*~
+\#*\#
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
